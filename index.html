@@ -1,12 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Recadinhos 💌</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    oie hadassa tudo bem com voce como vai voce por acaso quer namorar meu amigo? ele e legal. aguardo a resposta beijo
-    oie hadassa voltei tudo bem meu amigo ta ansioso esperando sua resposta ok ele e mt legal e bonitao mas sem pressao ta a genteespera sua boa vontade de reponder ta bom beijo me liga
+
+    <h1>💌 Recadinhos Importantes 💌</h1>
+
+    <p id="contador">tempo esperando resposta: 0 segundos 😔</p>
+
+    <div class="container">
+
+        <div class="card">
+            <p class="emoji">🎀</p>
+            <p>
+                oie hadassa tudo bem com voce quer namorar meu amigo? ele é legal 💗
+            </p>
+        </div>
+
+        <div class="card resposta">
+            <p class="emoji">💘</p>
+            <p><strong>Escolha sua resposta:</strong></p>
+
+            <div class="botoes">
+                <button class="aceitar" onclick="aceitou()">ACEITAR 💖</button>
+                <button class="recusar" id="naoBtn">RECUSAR 😡</button>
+            </div>
+
+            <p id="mensagem"></p>
+        </div>
+
+    </div>
+
+    <footer>
+        feito com carinho 💗 (sem opção de recusa)
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
