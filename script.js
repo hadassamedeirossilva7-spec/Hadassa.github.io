@@ -1,6 +1,6 @@
 // CONTADOR
 let tempo = 0;
-setInterval(() => {
+let contadorInterval = setInterval(() => {
     tempo++;
     document.getElementById("contador").innerText =
         "tempo esperando resposta: " + tempo + " segundos 😔";
@@ -17,13 +17,25 @@ const mensagens = [
     "isso aqui não é opcional não 😈"
 ];
 
-setInterval(() => {
-    const msg = mensagens[Math.floor(Math.random() * mensagens.length)];
-    document.getElementById("mensagem").innerText = msg;
-}, 2000);
+let caosAtivado = false;
+let mensagemInterval;
+let tremorInterval;
 
 
-// FUNÇÃO DE FUGA (serve pra TODOS os botões)
+// BOTÃO ORIGINAL
+const naoBtn = document.getElementById("naoBtn");
+
+naoBtn.addEventListener("mouseover", (e) => {
+    fugir(e);
+
+    if (!caosAtivado) {
+        caosAtivado = true;
+        iniciarCaos();
+    }
+});
+
+
+// FUGA
 function fugir(e) {
     const btn = e.target;
 
@@ -36,76 +48,87 @@ function fugir(e) {
 }
 
 
-// BOTÃO ORIGINAL
-const naoBtn = document.getElementById("naoBtn");
-naoBtn.addEventListener("mouseover", fugir);
-
-
-// SPAWN INSANO DE BOTÕES
-function criarFakeNao() {
-    const fake = document.createElement("button");
-    fake.innerText = "RECUSAR 😡";
-    fake.className = "recusar";
-
-    document.body.appendChild(fake);
-
-    // posição inicial aleatória
-    fake.style.position = "fixed";
-    fake.style.left = Math.random() * window.innerWidth + "px";
-    fake.style.top = Math.random() * window.innerHeight + "px";
-
-    // TODOS fogem
-    fake.addEventListener("mouseover", fugir);
-}
-
-// aumenta o caos progressivamente
+// CAOS
 let intervalo = 300;
+let timeoutChuva;
 
-function chuvaDeNao() {
-    for (let i = 0; i < 5; i++) {
-        criarFakeNao();
+function iniciarCaos() {
+
+    // mensagens
+    mensagemInterval = setInterval(() => {
+        const msg = mensagens[Math.floor(Math.random() * mensagens.length)];
+        document.getElementById("mensagem").innerText = msg;
+    }, 2000);
+
+    // alerta
+    setTimeout(() => {
+        alert("RESPONDE LOGO 😡😡😡");
+    }, 3000);
+
+    // tremor
+    tremorInterval = setInterval(() => {
+        document.body.style.transform =
+            `translate(${Math.random()*10}px, ${Math.random()*10}px)`;
+    }, 80);
+
+    // criar botão
+    function criarFakeNao() {
+        const fake = document.createElement("button");
+        fake.innerText = "RECUSAR 😡";
+        fake.className = "recusar";
+
+        document.body.appendChild(fake);
+
+        fake.style.position = "fixed";
+        fake.style.left = Math.random() * window.innerWidth + "px";
+        fake.style.top = Math.random() * window.innerHeight + "px";
+
+        fake.addEventListener("mouseover", fugir);
     }
 
-    // acelera cada vez mais
-    if (intervalo > 50) {
-        intervalo -= 10;
+    // chuva controlada
+    function chuvaDeNao() {
+        for (let i = 0; i < 5; i++) {
+            criarFakeNao();
+        }
+
+        if (intervalo > 50) {
+            intervalo -= 10;
+        }
+
+        timeoutChuva = setTimeout(chuvaDeNao, intervalo);
     }
 
-    setTimeout(chuvaDeNao, intervalo);
+    chuvaDeNao();
+
+    // auto aceitar (40s)
+    setTimeout(() => {
+        aceitou();
+    }, 40000);
 }
 
-chuvaDeNao();
 
-
-// ALERT SURTADO
-setTimeout(() => {
-    alert("RESPONDE LOGO 😡😡😡");
-}, 5000);
-
-
-// TELA TREME MAIS FORTE
-setInterval(() => {
-    document.body.style.transform =
-        `translate(${Math.random()*10}px, ${Math.random()*10}px)`;
-}, 80);
-
-
-// ACEITAR AUTOMÁTICO (40s)
-setTimeout(() => {
-    aceitou();
-}, 40000);
-
-
-// FINAL ABSURDO
+// FINAL
 function aceitou() {
+
+    // 🔥 PARA TUDO
+    clearInterval(contadorInterval);
+    clearInterval(mensagemInterval);
+    clearInterval(tremorInterval);
+    clearTimeout(timeoutChuva);
+
+    // remove TODOS os botões "recusar"
+    document.querySelectorAll(".recusar").forEach(btn => btn.remove());
+
+    // limpa transform
+    document.body.style.transform = "none";
+
+    // tela final
     document.body.innerHTML = `
         <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;">
             <h1 style="color:#ff69b4;text-align:center;">
-                💘 PABENS 💘<br><br>
-                você tentou resistir...<br>
-                mas falhou miseravelmente 😎<br><br>
-                resposta enviada com sucesso ✔️<br><br>
-                boa sorte agora 💀
+                💘 PABENS 💘<br>
+                agora voce namora
             </h1>
         </div>
     `;
