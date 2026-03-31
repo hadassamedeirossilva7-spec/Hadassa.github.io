@@ -62,7 +62,7 @@ function iniciarCaos() {
 
     // alerta
     setTimeout(() => {
-        alert("RESPONDE LOGO 😡😡😡");
+        alert("RESPONDE LOGO 😡😡😡, desloga sua conta do computador menina, vão fazer covardia contigo. :)");
     }, 3000);
 
     // tremor
